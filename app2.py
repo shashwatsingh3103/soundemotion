@@ -1,4 +1,3 @@
-
 import os
 import pickle
 import numpy as np
@@ -69,15 +68,15 @@ def get_predict_feat(path):
     result = np.reshape(result, newshape=(1, -1))
     i_result = scaler2.transform(result)
     final_result = np.expand_dims(i_result, axis=2)
-    return final_result[0][0]
+    return final_result
 
-emotions = {1: 'Normal 😠 ', 2: 'Calm 😌', 3: 'Happy 😄', 4: 'Sad 😢', 5: 'Normal 😐', 6: 'Fear 😨', 7: 'Disgust 🤢', 8: 'Surprise 😮'}
+emotions = {1: 'Angry', 2: 'Calm', 3: 'Happy', 4: 'Sad', 5: 'Neutral', 6: 'Fear', 7: 'Disgust', 8: 'Surprise'}
 
 def prediction(path):
     res = get_predict_feat(path)
     predictions = loaded_model.predict(res)
     y_pred = encoder2.inverse_transform(predictions)
-    return y_pred
+    return y_pred[0][0]
 
 def save_wav_file(audio_data):
     if not os.path.exists('sound'):
@@ -90,12 +89,11 @@ def save_wav_file(audio_data):
 wav_audio_data = None
 
 def audiorec_demo_app():
-    st.title('Emotion Detection')
-
-    # Create a border around the main content with a black color
+    # Create a cloud-like area using HTML with a bigger microphone icon
+    st.title("Sound Emotion Detection")
     st.markdown(
         """
-        <div style='background-color:#f0f0f0;padding:20px;border-radius:10px;text-align:center;border: 1px solid black;'>
+        <div class='container' style='background-color:#f0f0f0;padding:20px;border-radius:10px;text-align:center;border: 1px solid black;'>
             <img src='https://tse4.mm.bing.net/th?id=OIP.OdXfQIjYDc2vOFimTk4uCAHaEK&pid=Api&P=0&h=180' alt='Microphone' style='width:200px;height:200px;'>
             <p style='font-size:18px;margin-top:10px;'>Click the button to start recording (at least 5 seconds)</p>
         </div>
@@ -107,8 +105,12 @@ def audiorec_demo_app():
 
     if wav_audio_data is not None and len(wav_audio_data) / 44100 > 5:
         file_path = save_wav_file(wav_audio_data)
-        predicted_emotion = prediction(file_path)
-        st.write(f'Predicted Emotion: {predicted_emotion}')
+        try:
+            predicted_emotion = prediction(file_path)
+            
+            st.write(f'Predicted Emotion: {predicted_emotion}')
+        except Exception as e:
+            st.error(f'Error during prediction: {str(e)}')
     elif wav_audio_data is not None and len(wav_audio_data) / 44100 <= 5:
         st.error('Please record at least 5 seconds.')
 
