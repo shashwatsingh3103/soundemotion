@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Large Orange Cloud</title>
+<style>
+  body {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .cloud {
+    width: 900px;
+    height: 450px;
+    background-color: white;
+    position: relative;
+    border-radius: 300px;
+    overflow: hidden;
+  }
+
+  .cloud::before,
+  .cloud::after {
+    content: '';
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 180px;
+    background-color: orange;
+  }
+
+  .cloud::before {
+    top: -30px;
+    left: 10px;
+  }
+
+ 
+
+  .cloud-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    font-size: 72px;
+    padding-top: 120px;
+  }
+</style>
+</head>
+<body>
+  <div class="cloud">
+   
+  </div>
+</body>
+</html>
