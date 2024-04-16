@@ -107,10 +107,7 @@ def audiorec_demo_app():
         file_path = save_wav_file(wav_audio_data)
         try:
             predicted_emotion = prediction(file_path)
-            if predicted_emotion=="angry":
-                predicted_emotion ="normal"
-            if predicted_emotion=="neutral":
-                predicted_emotion ="angry"
+            
             st.write(f'Predicted Emotion: {predicted_emotion}')
         except Exception as e:
             st.error(f'Error during prediction: {str(e)}')
